@@ -24,7 +24,7 @@
             class="d-flex align-center mb-4"
           >
             <img
-              :src="item.image"
+              :src="getSrc('benefits/'+item.image)"
               :alt="item.name"
             >
             <p class="plan-cart-description__paragraph mr-4 mb-0 ml-4">
@@ -64,6 +64,11 @@ export default {
     cost: {
       type: Number,
       default: null
+    }
+  },
+  methods: {
+    getSrc(src) {
+      return require(`@/assets/plans/${src}`)
     }
   }
 

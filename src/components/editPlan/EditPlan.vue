@@ -79,7 +79,7 @@
             >
               <v-col sm="2">
                 <img
-                  :src="item.image"
+                  :src="getSrc('benefits/'+item.image)"
                   :alt="item.name"
                 />
               </v-col>
@@ -172,10 +172,6 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import PlansHeader from '@/components/plans/PlansHeader';
-import box from '@/assets/plans/benefits/box.svg';
-import edit from '@/assets/plans/benefits/edit.svg';
-import money_back from '@/assets/plans/benefits/money_back.svg';
-import clock_icon from '@/assets/plans/benefits/clock_icon.svg';
 
 export default {
   name: 'EditPlan',
@@ -184,11 +180,11 @@ export default {
   },
   props: {
     step: {
-      type: Number,
+      type: [Number, String],
       default: null
     },
     selectedPlanId: {
-      type: String,
+      type: [Number, String],
       default: ''
     }
   },
@@ -201,68 +197,7 @@ export default {
     tmpCost: null,
     tmpCurrentPlan: {},
     resubscribePeriodValue: '',
-    benefits: [
-      {
-        image: box,
-        name: 'Free shipping',
-        cost: 20,
-        checked: false
-      },
-      {
-        image: edit,
-        name: 'Free edit plan',
-        cost: 20,
-        checked: false
-      },
-      {
-        image: edit,
-        name: 'Free changing',
-        cost: 29,
-        checked: false
-      },
-      {
-        image: money_back,
-        name: 'Money back',
-        cost: 3,
-        checked: false
-      },
-      {
-        image: clock_icon,
-        name: 'Rough hours shipping',
-        cost: 3,
-        checked: false
-      },
-      {
-        image: box,
-        name: 'Free shipping + bonus',
-        cost: 4,
-        checked: false
-      },
-      {
-        image: edit,
-        name: 'Free edit plan + bonus',
-        cost: 5,
-        checked: false
-      },
-      {
-        image: edit,
-        name: 'Free changing + bonus',
-        cost: 5,
-        checked: false
-      },
-      {
-        image: money_back,
-        name: 'Money back + bonus',
-        cost: 10,
-        checked: false
-      },
-      {
-        image: clock_icon,
-        name: 'Rough hours shipping + bonus',
-        cost: 10,
-        checked: false
-      }
-    ],
+    benefits: [],
     resubscribePeriod: {
       img: 'clock_icon.svg',
       name: 'want to receive a given box with',
@@ -271,23 +206,18 @@ export default {
   }),
   created() {
     const item = this.plansData.find(item => item.id === this.selectedPlanId);
+    this.fetchBenefits();
     this.tmpCurrentPlan = JSON.parse(JSON.stringify(item));
-    this.benefits.forEach((item, index) => {
-      const isFind = this.tmpCurrentPlan.benefits.findIndex(currentItem => currentItem.name === item.name);
-      if (isFind !== -1) {
-        this.benefits[index].checked = true;
-      }
-    });
     this.resubscribePeriodValue = this.tmpCurrentPlan.resubscribePeriod;
     this.tmpCost = this.tmpCurrentPlan.cost;
   },
   methods: {
     ...mapMutations({
       updateCard: 'updateCard',
-      saveCustomPlan: 'saveCustomPlan'
+      addBox: 'addBox',
     }),
     onCheckBoxChange(checked, cost) {
-      checked ? this.tmpCost += cost : this.tmpCost -= cost;
+      checked ? this.tmpCost += Number(cost) : this.tmpCost -= Number(cost);
     },
     updateCardHandler() {
       this.tmpCurrentPlan.benefits = this.benefits.filter(item => item.checked);
@@ -297,12 +227,40 @@ export default {
       this.$emit('save-changes');
     },
     saveAsCustom() {
-      this.tmpCurrentPlan.benefits = this.benefits.filter(item => item.checked);
-      this.tmpCurrentPlan.cost = this.tmpCost;
-      this.tmpCurrentPlan.resubscribePeriod = this.resubscribePeriodValue;
-      this.tmpCurrentPlan.id += '1';
-      this.saveCustomPlan(this.tmpCurrentPlan);
-      this.$emit('save-changes');
+      const token = localStorage.getItem("token");
+      const headers =  {"Authorization": `Bearer ${token}`};
+      const checkedBenefits = this.benefits.filter(item => item.checked );
+      const reqData = {
+        boxId : this.tmpCurrentPlan.id,
+        benefitIds : checkedBenefits.map((b) => b.id),
+        products :  this.tmpCurrentPlan.products,
+        resubscribePeriod : this.resubscribePeriodValue,
+      }
+
+      this.$axios
+      .post("http://127.0.0.1:8000/api/boxes", reqData, headers)
+      .then(res => {
+        this.addBox(res.data);
+        this.$emit('save-changes');
+      })
+      .catch(err => console.error(err.response.data));
+    },
+    fetchBenefits() {
+      this.$axios
+        .get("http://127.0.0.1:8000/api/benefits")
+        .then(res => {
+            this.benefits = res.data;
+            this.benefits.forEach((item, index) => {
+              const isFind = this.tmpCurrentPlan.benefits.findIndex(currentItem => currentItem.name === item.name);
+              if (isFind !== -1) {
+                  this.benefits[index].checked = true;
+                }
+            });
+        })
+        .catch(err => console.error(err.response.data));
+    },
+    getSrc(src) {
+      return require(`@/assets/plans/${src}`)
     }
   }
 };

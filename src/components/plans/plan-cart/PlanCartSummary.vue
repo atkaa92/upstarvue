@@ -50,7 +50,7 @@ export default {
   name: 'PlanCartSummary',
   props: {
     selectedPlanFreeShippingFrom: {
-      type: Number,
+      type: [Number, String],
       default: null
     },
     overalPrice: {
@@ -64,7 +64,7 @@ export default {
   }),
   computed: {
     shippingPrice() {
-      const diff = this.selectedPlanFreeShippingFrom - +this.overalPrice;
+      const diff = Number(this.selectedPlanFreeShippingFrom) - +this.overalPrice;
       return diff >= 0 ? diff.toFixed(2) : 0;
     }
   }

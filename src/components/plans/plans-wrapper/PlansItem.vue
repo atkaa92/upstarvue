@@ -19,7 +19,7 @@
       </v-chip>
       <div class="plan-benefits-wrapper">
         <img
-          :src="img"
+          :src="getSrc('plans-item/'+img)"
           :alt="name"
           class="mb-4 plans-item-content__image"
         />
@@ -39,7 +39,7 @@
             class="benefits-item"
           >
             <img
-              :src="item.image"
+              :src="getSrc('benefits/'+item.image)"
               :alt="name"
             />
             <p class="plans-item-content__shipping color-yellow">
@@ -88,7 +88,7 @@ export default {
       default: false
     },
     id: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
     img: {
@@ -125,6 +125,11 @@ export default {
     }),
     current() {
       return this.activePlanId === this.id;
+    }
+  },
+  methods: {
+    getSrc(src) {
+      return require(`@/assets/plans/${src}`)
     }
   }
 };

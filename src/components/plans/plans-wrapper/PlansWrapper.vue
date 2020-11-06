@@ -46,7 +46,7 @@
 <script>
 import PlansHeader from '@/components/plans/PlansHeader';
 import PlansItem from '@/components/plans/plans-wrapper/PlansItem';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
   name: 'PlansWrapper',
@@ -66,9 +66,23 @@ export default {
     })
   },
   methods: {
+    ...mapMutations(["setBoxes"]),
     selectPlan(id) {
       this.$emit('select-plan', id);
+    },
+    fetchAllBoxies() {
+      this.$axios.get('http://127.0.0.1:8000/api/boxes')
+        .then(res => {
+            this.setBoxes(res.data);
+            console.log(res.data);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        });
     }
+  },
+  created() {
+    this.fetchAllBoxies();
   }
 };
 </script>

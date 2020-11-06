@@ -65,7 +65,7 @@
             <p class="plan-cart-product__price mb-0">
               <span
                 class="plan-cart-product__price_small mr-1"
-              >$</span>{{ item.price.toFixed(2) }}
+              >$</span>{{ item.price }}
             </p>
           </v-col>
           <v-col
@@ -168,7 +168,7 @@ export default {
   },
   props: {
     selectedPlanId: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
     step: {
