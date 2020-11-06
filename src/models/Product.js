@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:3000/api/products";
+const url = "http://127.0.0.1:8000/api/products";
 
 export default class Product {
     constructor(product = {}) {

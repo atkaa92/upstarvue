@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import axios from "axios";
 
 Vue.use(Vuex);
 
@@ -349,10 +350,22 @@ export default new Vuex.Store({
             state.auth.user = user;
         },
         removeAuth(state) {
-            state.auth = {
-                token: "",
-                user: {}
-            };
+            axios
+                .post("http://127.0.0.1:8000/api/logout", {}, {
+                    headers: {
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+                .then(() => {
+                    localStorage.removeItem("token");
+                    state.auth = {
+                        token: "",
+                        user: {}
+                    };
+                })
+                .catch(err => console.error(err.response.data));
+
+
         },
         checkout(state, plan) {
             let index = state.plansData.findIndex(item => item.id === plan.id);

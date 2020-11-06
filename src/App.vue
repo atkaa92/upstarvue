@@ -22,9 +22,9 @@ export default {
 
         getUser(token) {
             this.$axios
-                .get("http://localhost:3000/api/users/me", {
+                .get("http://127.0.0.1:8000/api/me", {
                     headers: {
-                        "x-auth-token": token
+                        "Authorization": `Bearer ${token}`
                     }
                 })
                 .then(res => this.setUser(res.data))

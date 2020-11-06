@@ -126,14 +126,16 @@ export default {
         SignIn() {
             this.disabled = true;
             this.$axios
-                .post("http://localhost:3000/api/auth", {
+                .post("http://127.0.0.1:8000/api/login", {
                     email: this.email,
                     password: this.password
                 })
                 .then(res => {
-                    localStorage.setItem("token", res.headers["x-auth-token"]);
-                    this.setToken(res.headers["x-auth-token"]);
-                    this.setUser(res.data);
+                    localStorage.setItem("token", res.data.access_token);
+
+                    this.setToken(res.data.access_token);
+                    this.setUser(res.data.user);
+
                     this.$router.replace("/");
                 })
                 .catch(err => {

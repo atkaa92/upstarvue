@@ -13,7 +13,7 @@
             <v-btn text large tile class="text-capitalize">checkout</v-btn>
             <v-divider vertical></v-divider>
 
-            <template v-if="auth.user._id">
+            <template v-if="auth.user.id">
                 <v-menu
                     offsetY
                     origin="center center"
@@ -26,9 +26,7 @@
                             class="mx-3 pointer"
                             v-on="on"
                         >
-                            <span class="primary--text profile-avatar">{{
-                                auth.user.username[0]
-                            }}</span>
+                            <span class="primary--text profile-avatar">{{auth.user.name[0]}}</span>
                         </v-avatar>
                     </template>
 
@@ -57,7 +55,7 @@
                 </v-menu>
                 <v-divider vertical class="mr-3"></v-divider>
                 <span class="user-greeting">
-                    Hi, {{ auth.user.username }}
+                    Hi, {{ auth.user.name }}
                 </span>
             </template>
 
@@ -174,7 +172,7 @@ export default {
         },
 
         signOut() {
-            localStorage.removeItem("token");
+
             this.removeAuth();
             if (this.$route.fullPath !== "/") this.$router.push("/");
         }

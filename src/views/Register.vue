@@ -103,7 +103,7 @@ export default {
     beforeRouteEnter(to, from, next) {
         next(vm => {
             setTimeout(() => {
-                if (vm.$store.state.auth.user._id) {
+                if (vm.$store.state.auth.user.id) {
                     vm.$router.push("/");
                 }
             }, 300);
@@ -186,7 +186,7 @@ export default {
             this.disabled = true;
             this.$axios
                 .post(
-                    "http://localhost:3000/api/users",
+                    "http://127.0.0.1:8000/api/register",
                     {
                         username: this.username,
                         email: this.email,
@@ -194,9 +194,11 @@ export default {
                     }
                 )
                 .then(res => {
-                    localStorage.setItem("token", res.headers["x-auth-token"]);
-                    this.setToken(res.headers["x-auth-token"]);
-                    this.setUser(res.data);
+                    localStorage.setItem("token", res.data.access_token);
+
+                    this.setToken(res.data.access_token);
+                    this.setUser(res.data.user);
+
                     this.$router.replace("/");
                 })
                 .catch(err => {
