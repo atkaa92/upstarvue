@@ -449,7 +449,7 @@ export default {
 
         save() {
             this.disabled = true;
-            console.log(this.product);
+
             if (this.mode === 1) {
                 Product.post(this.product)
                     .then(res => {

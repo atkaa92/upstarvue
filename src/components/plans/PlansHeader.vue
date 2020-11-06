@@ -10,6 +10,22 @@
       >
         {{ description }}
       </p>
+
+      <div class="mt-3">
+        <v-btn
+            v-if="step !== 2"
+            rounded
+            outlined
+            color="#efb60f"
+            width="170"
+            height="52"
+            depressed
+            class="custom-btn custom-btn--checkout"
+            @click="$emit('custom')"
+        >
+          Create custom
+        </v-btn>
+      </div>
     </div>
     <v-btn
       v-if="step !== 1"

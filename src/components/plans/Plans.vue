@@ -11,6 +11,7 @@
         @checkout="checkout"
         @save-changes="saveChanges"
         @go-to-plans="goToPlans"
+        @custom="showCreateForm"
       />
     </v-container>
   </section>
@@ -20,6 +21,7 @@
 import PlansWrapper from '@/components/plans/plans-wrapper/PlansWrapper';
 import PlanCartProduct from '@/components/plans/plan-cart/PlanCartProduct';
 import EditPlan from '@/components/editPlan/EditPlan';
+import CreatePlan from '@/components/addPlan/CreatePlan';
 import Checkout from '@/components/plans/Checkout';
 
 export default {
@@ -28,6 +30,7 @@ export default {
     PlansWrapper,
     PlanCartProduct,
     EditPlan,
+    CreatePlan,
     Checkout
   },
   data: () => ({
@@ -42,6 +45,9 @@ export default {
     }
   },
   methods: {
+    showCreateForm() {
+        this.selectedComponent = 'CreatePlan';
+    },
     selectPlan(id) {
       this.selectedPlanId = id;
       this.selectedComponent = 'PlanCartProduct';

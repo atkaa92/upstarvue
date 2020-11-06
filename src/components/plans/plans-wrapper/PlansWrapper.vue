@@ -6,6 +6,7 @@
         :description="'We noticed which products you viewed and based on this we suggest choosing a box'"
         :step="step"
         @back="$emit('back')"
+        @custom="$emit('custom')"
       />
       <v-row
         class="plan-items"
