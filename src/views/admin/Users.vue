@@ -170,7 +170,7 @@ export default {
 
         getTextileTypes() {
             this.$axios
-                .get(`http://127.0.0.1:8000/api/textileTypes`)
+                .get(`http://52.87.198.70:8080/api/textileTypes`)
                 .then(res => (this.textileTypes = res.data))
                 .catch(err => console.error(err.response.data));
         },

@@ -72,7 +72,7 @@ export default {
       this.$emit('select-plan', id);
     },
     fetchAllBoxies() {
-      this.$axios.get('http://127.0.0.1:8000/api/boxes')
+      this.$axios.get('http://52.87.198.70:8080/api/boxes')
         .then(res => {
             this.setBoxes(res.data);
             console.log(res.data);

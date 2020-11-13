@@ -238,7 +238,7 @@ export default {
       }
 
       this.$axios
-      .post("http://127.0.0.1:8000/api/boxes", reqData, headers)
+      .post("http://52.87.198.70:8080/api/boxes", reqData, headers)
       .then(res => {
         this.addBox(res.data);
         this.$emit('save-changes');
@@ -247,7 +247,7 @@ export default {
     },
     fetchBenefits() {
       this.$axios
-        .get("http://127.0.0.1:8000/api/benefits")
+        .get("http://52.87.198.70:8080/api/benefits")
         .then(res => {
             this.benefits = res.data;
             this.benefits.forEach((item, index) => {

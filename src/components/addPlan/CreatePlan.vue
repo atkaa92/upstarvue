@@ -311,7 +311,7 @@ export default {
     },
     fetchBenefits() {
       this.$axios
-        .get("http://127.0.0.1:8000/api/benefits")
+        .get("http://52.87.198.70:8080/api/benefits")
         .then(res => {
             this.benefits = res.data;
         })
@@ -319,7 +319,7 @@ export default {
     },
     fetchProducts() {
         this.$axios
-          .get("http://127.0.0.1:8000/api/products")
+          .get("http://52.87.198.70:8080/api/products")
           .then(res => {
               this.products = _.cloneDeep(res.data);
           })
@@ -345,7 +345,7 @@ export default {
         };
 
         this.$axios
-            .post("http://127.0.0.1:8000/api/boxes/custom", reqData, headers)
+            .post("http://52.87.198.70:8080/api/boxes/custom", reqData, headers)
             .then(res => {
                 this.addBox(res.data);
                 this.$emit('save-changes');

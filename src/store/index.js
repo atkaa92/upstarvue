@@ -35,7 +35,7 @@ export default new Vuex.Store({
         },
         removeAuth(state) {
             axios
-                .post("http://127.0.0.1:8000/api/logout", {}, {
+                .post("http://52.87.198.70:8080/api/logout", {}, {
                     headers: {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }

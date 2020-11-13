@@ -186,7 +186,7 @@ export default {
             this.disabled = true;
             this.$axios
                 .post(
-                    "http://127.0.0.1:8000/api/register",
+                    "http://52.87.198.70:8080/api/register",
                     {
                         username: this.username,
                         email: this.email,

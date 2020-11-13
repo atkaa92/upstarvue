@@ -22,7 +22,7 @@ export default {
 
         getUser(token) {
             this.$axios
-                .get("http://127.0.0.1:8000/api/me", {
+                .get("http://52.87.198.70:8080/api/me", {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
